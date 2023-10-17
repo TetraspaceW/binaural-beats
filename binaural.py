@@ -5,12 +5,20 @@ import numpy as np
 
 p = pyaudio.PyAudio()
 
-volume = 0.5  # range [0.0, 1.0]
-fs = 44100  # sampling rate, Hz, must be integer
-duration = 10.0  # in seconds, may be float
+volume = 0.5
+fs = 44100
+duration = 10.0
+
+# delta - 1-4 Hz
+# theta - 4-8 Hz
+# alpha - 8-14 Hz
+# beta - 14-30 Hz
+# gamma - 30-100 Hz
+# gamma / beta are where it gets interesting
+beat_frequency = 30
 
 f_left = 100.0
-f_right = 100.0 + 32  # sine frequency, Hz, may be float
+f_right = 100.0 + beat_frequency
 
 
 def sin(freq):
