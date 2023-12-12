@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "binaural-beats"
+version = "0.1.0"
+description = "Script for generating and playing binaural beats."
+authors = ["TetraspaceW <holomanga@gmail.com>"]
+readme = "README.md"
+license = "CC0-1.0"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.2"
+pyaudio = "^0.2.14"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

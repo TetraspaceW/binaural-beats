@@ -1,4 +1,3 @@
-import time
 import math
 import pyaudio
 import numpy as np
