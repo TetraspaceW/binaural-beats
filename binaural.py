@@ -4,6 +4,8 @@ import numpy as np
 
 p = pyaudio.PyAudio()
 
+buffer_size = 2048
+
 volume = 0.5
 fs = 44100
 duration = 60.0
@@ -21,14 +23,14 @@ f_left = base_frequency - beat_frequency / 2.0
 f_right = base_frequency + beat_frequency / 2.0
 
 
-def sin(freq):
-    return (np.sin(2 * np.pi * np.arange(fs * 10.0) * freq / fs)).astype(np.float32)
+def sin(freq: float, duration: float):
+    return (np.sin(2 * np.pi * np.arange(fs * duration) * freq / fs)).astype(np.float32)
 
 
 placebo = False
 
-samples_left = sin(f_left)
-samples_right = sin(f_right)
+samples_left = sin(f_left, duration)
+samples_right = sin(f_right, duration)
 
 if not placebo:
     samples = np.array([samples_left, samples_right]).T
@@ -41,11 +43,14 @@ runs = math.ceil(duration / 10.0)
 
 output_bytes = (volume * samples).tobytes()
 
-for _ in range(runs):
-    stream = p.open(
-        format=pyaudio.paFloat32, channels=2 if not placebo else 1, rate=fs, output=True
-    )
-    stream.write(output_bytes)
+stream = p.open(
+    format=pyaudio.paFloat32,
+    channels=2 if not placebo else 1,
+    rate=fs,
+    output=True,
+    frames_per_buffer=buffer_size,
+)
+stream.write(output_bytes)
 
 stream.stop_stream()
 stream.close()
